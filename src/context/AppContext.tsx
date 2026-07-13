@@ -74,15 +74,15 @@ const DEFAULT_ROLES: Role[] = [
 
 // Seed data helper
 const seedDefaultData = () => {
-  const settings: CompanySettings = {
-    name: "ELECTRICAL HALL NIG LTD",
-    address: "Plot 14, Alaba International Market, Ojo, Lagos, Nigeria",
-    phone: "+234 803 123 4567",
-    email: "info@electricalhall.com.ng",
-    rcNumber: "RC-1294812",
-    motto: "Powering Quality & Reliability",
-    logo: "🔌"
-  };
+    const settings: CompanySettings = {
+      name: "ELECTRICAL HALL NIG LTD",
+      address: "Plot 14, Alaba International Market, Ojo, Lagos, Nigeria",
+      phone: "+234 803 123 4567",
+      email: "info@electricalhall.com.ng",
+      rcNumber: "RC-1294812",
+      motto: "Powering Quality & Reliability",
+      logo: "/logo.png"
+    };
 
   const users: User[] = [
     { id: 'usr-1', username: 'admin', name: 'Chief Administrator', role: 'Admin', active: true },
@@ -259,7 +259,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Load or initialize DB state
   const [settings, setSettings] = useState<CompanySettings>(() => {
     const data = localStorage.getItem('eh_settings');
-    return data ? JSON.parse(data) : seedDefaultData().settings;
+    const defaultSettings = seedDefaultData().settings;
+    if (data) {
+      const parsed = JSON.parse(data);
+      // Always use the new default logo path
+      return { ...parsed, logo: defaultSettings.logo };
+    }
+    return defaultSettings;
   });
 
   const [users, setUsers] = useState<User[]>(() => {
