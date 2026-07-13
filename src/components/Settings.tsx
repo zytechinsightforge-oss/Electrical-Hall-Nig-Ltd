@@ -3,21 +3,20 @@ import { useApp } from '../context/AppContext';
 import { 
   Settings, Building2, Phone, Mail, 
   MapPin, Shield, Milestone, Image, CheckCircle2,
-  Trash2, Edit2, Plus, Terminal, RefreshCw, Sliders,
-  Layers, HelpCircle, Save, Database
+  Trash2, Edit2, Plus, Sliders,
+  Layers, Save
 } from 'lucide-react';
 
 export default function CompanySettingsScreen() {
   const { 
-    settings, updateSettings, refreshData,
+    settings, updateSettings,
     units, addUnit, deleteUnit,
     paymentMethods, addPaymentMethod, deletePaymentMethod,
-    branches, addBranch, deleteBranch,
-    products, transactions, suppliers, costCenters
+    branches, addBranch, deleteBranch
   } = useApp();
 
   // Active sub-view tab
-  const [activeTab, setActiveTab] = useState<'Branding' | 'Filters' | 'ZifConsole'>('Branding');
+  const [activeTab, setActiveTab] = useState<'Branding' | 'Filters'>('Branding');
 
   // Local Form state for Branding
   const [compName, setCompName] = useState(settings.name);
@@ -66,14 +65,6 @@ export default function CompanySettingsScreen() {
     });
 
     triggerToast("Company settings and receipt templates updated successfully!");
-  };
-
-  const handleResetSystem = () => {
-    if (window.confirm("WARNING: This will clear all transactions, reset suppliers/cost centres and reseed database back to Alaba factory standards. Do you want to proceed?")) {
-      refreshData();
-      triggerToast("System Database re-seeded to factory defaults.");
-      setTimeout(() => window.location.reload(), 1200);
-    }
   };
 
   // Units Management Helpers
@@ -157,7 +148,7 @@ export default function CompanySettingsScreen() {
 
         {/* Settings view toggles */}
         <div className="flex bg-slate-900 p-1 rounded-xl border border-slate-750 self-end md:self-auto shrink-0">
-          {(['Branding', 'Filters', 'ZifConsole'] as const).map(tab => (
+          {(['Branding', 'Filters'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -167,7 +158,7 @@ export default function CompanySettingsScreen() {
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              {tab === 'Branding' ? '🏢 Corporate Profile' : tab === 'Filters' ? '⚙️ Control Filters' : '🔌 ZIF Console'}
+              {tab === 'Branding' ? '🏢 Corporate Profile' : '⚙️ Control Filters'}
             </button>
           ))}
         </div>
@@ -663,104 +654,6 @@ export default function CompanySettingsScreen() {
             <div className="pt-2 border-t border-slate-700/60 text-[9px] text-slate-500 font-medium">
               Total outlets mapped: <b>{branches.length} keys</b>
             </div>
-          </div>
-
-        </div>
-      )}
-
-      {/* TAB C: 🔌 ELECTRICAL HALL ZIF ADMINISTRATIVE CONSOLE */}
-      {activeTab === 'ZifConsole' && (
-        <div className="space-y-6 animate-fadeIn">
-          
-          <div className="bg-slate-800 border border-slate-700 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                <Terminal size={14} className="text-blue-500" />
-                <span>🔌 ZIF Administrative Console v2.8</span>
-              </h3>
-              <p className="text-[10px] text-slate-400 mt-0.5 font-medium">Verify sandbox state registers, memory footprint limits, and trigger systemic database maintenance.</p>
-            </div>
-            
-            <div className="flex items-center gap-2 font-mono text-[9px] bg-slate-900 border border-slate-750 px-3 py-1.5 rounded-lg text-slate-450 font-bold shrink-0">
-              <Database size={12} className="text-emerald-400 animate-pulse" />
-              <span>STABLE STORAGE ENGINE: LOCALSTORAGE V2</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            
-            {/* Database Stats Table */}
-            <div className="md:col-span-8 bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4 shadow-sm">
-              <div>
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider">Dynamic Memory Registry Node Counts</h4>
-                <p className="text-[9px] text-slate-400 mt-0.5">Physical counts of persisted structural records registered in memory.</p>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                
-                <div className="p-3 bg-slate-900 rounded-xl border border-slate-750 text-center">
-                  <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest block">Products</span>
-                  <p className="text-2xl font-black text-white font-mono mt-1">{products.length}</p>
-                </div>
-
-                <div className="p-3 bg-slate-900 rounded-xl border border-slate-750 text-center">
-                  <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest block">Transactions</span>
-                  <p className="text-2xl font-black text-white font-mono mt-1">{transactions.length}</p>
-                </div>
-
-                <div className="p-3 bg-slate-900 rounded-xl border border-slate-750 text-center">
-                  <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest block">Suppliers</span>
-                  <p className="text-2xl font-black text-white font-mono mt-1">{suppliers.length}</p>
-                </div>
-
-                <div className="p-3 bg-slate-900 rounded-xl border border-slate-750 text-center">
-                  <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest block">Cost Centres</span>
-                  <p className="text-2xl font-black text-white font-mono mt-1">{costCenters.length}</p>
-                </div>
-
-              </div>
-
-              <div className="bg-slate-900 p-4 rounded-xl border border-slate-750 space-y-1.5 text-[10px] text-slate-400">
-                <span className="text-[8px] font-extrabold text-slate-500 uppercase tracking-widest block mb-2">Internal Sandbox Diagnostics Checklists:</span>
-                <p className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
-                  <span>LocalStorage state integrity matches schema v2.0 specifications.</span>
-                </p>
-                <p className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
-                  <span>No orphan keys or un-synced product category links located during diagnostics boot.</span>
-                </p>
-                <p className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
-                  <span>Cross-platform state binders syncing in background without delay loops.</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Reset / Dangerous control column */}
-            <div className="md:col-span-4 bg-slate-800 border border-slate-700 rounded-2xl p-5 space-y-4 shadow-sm flex flex-col justify-between">
-              <div className="space-y-2">
-                <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <RefreshCw size={12} className="animate-spin-slow" />
-                  <span>Hard Factory Maintenance</span>
-                </h4>
-                <p className="text-[10px] text-slate-400 leading-relaxed">
-                  Deletes all locally registered material records, cash books, and supplier ledgers, re-initializing the database to pristine Alaba defaults.
-                </p>
-              </div>
-
-              <div className="space-y-2 pt-3 border-t border-slate-750">
-                <button
-                  onClick={handleResetSystem}
-                  type="button"
-                  className="w-full py-2.5 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 font-bold rounded-xl text-xs transition-colors cursor-pointer text-center uppercase tracking-wide block font-sans"
-                >
-                  Factory Database Reset
-                </button>
-                <span className="text-[8px] text-slate-550 block text-center">Cannot be undone once executed.</span>
-              </div>
-            </div>
-
           </div>
 
         </div>

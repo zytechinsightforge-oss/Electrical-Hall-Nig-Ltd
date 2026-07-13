@@ -8,7 +8,13 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "cf:login": "wrangler login",
+    "cf:init": "wrangler init",
+    "cf:create-db": "wrangler d1 create electrical-hall-db",
+    "cf:migrate": "wrangler d1 migrations apply electrical-hall-db --remote",
+    "cf:migrate-local": "wrangler d1 migrations apply electrical-hall-db --local",
+    "cf:deploy": "wrangler pages deploy"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -31,6 +37,7 @@
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "wrangler": "^4.110.0"
   }
 }

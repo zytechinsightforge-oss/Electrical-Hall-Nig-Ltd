@@ -1,0 +1,11 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "electrical-hall-nig-ltd"
+compatibility_date = "2024-04-01"
+
+[vars]
+
+# D1 Database (we'll fill this in after creating the DB)
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "electrical-hall-db"
+# database_id = "your-database-id-here"
