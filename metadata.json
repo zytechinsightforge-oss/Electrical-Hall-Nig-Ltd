@@ -1,0 +1,6 @@
+{
+  "name": "Electrical Hall POS",
+  "description": "Comprehensive Point of Sale (POS), inventory, and accounting system for Electrical Hall Nig Ltd, featuring interactive reports and dashboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
